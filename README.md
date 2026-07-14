@@ -19,6 +19,7 @@ A polished PlatformIO demo for an ESP32-S3 Dev Board with a 3.5-inch 320x480 SPI
 
 - LovyanGFX-only rendering; no TFT_eSPI and no LVGL dependency.
 - Existing `LGFX_ILI9488.h` display configuration is used unchanged.
+
 - Wallpaper is loaded once from SPIFFS as `/background.png`.
 - Top translucent-style panel with time, date, day of week, WiFi signal, and weather placeholder.
 - NTP synchronization over WiFi using Arduino `time.h` support.
@@ -31,6 +32,7 @@ A polished PlatformIO demo for an ESP32-S3 Dev Board with a 3.5-inch 320x480 SPI
 
 ```text
 .
+
 ├── data/
 │   └── README.md              # Put background.png here for SPIFFS upload
 ├── include/
@@ -62,12 +64,14 @@ A polished PlatformIO demo for an ESP32-S3 Dev Board with a 3.5-inch 320x480 SPI
 
 ## Compilation
 
+
 ```bash
 pio run
 pio run --target upload
 pio run --target uploadfs
 pio device monitor
 ```
+
 
 ## Screenshots
 
