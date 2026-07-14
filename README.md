@@ -19,7 +19,7 @@ A polished PlatformIO demo for an ESP32-S3 Dev Board with a 3.5-inch 320x480 SPI
 
 - LovyanGFX-only rendering; no TFT_eSPI and no LVGL dependency.
 - Existing `LGFX_ILI9488.h` display configuration is used unchanged.
-- Arduino IDE sketch included for users who do not want to use PlatformIO.
+
 - Wallpaper is loaded once from SPIFFS as `/background.png`.
 - Top translucent-style panel with time, date, day of week, WiFi signal, and weather placeholder.
 - NTP synchronization over WiFi using Arduino `time.h` support.
@@ -32,10 +32,7 @@ A polished PlatformIO demo for an ESP32-S3 Dev Board with a 3.5-inch 320x480 SPI
 
 ```text
 .
-├── ArduinoIDE/
-│   └── ESP32S3_ILI9488_Showcase/
-│       ├── ESP32S3_ILI9488_Showcase.ino
-│       └── LGFX_ILI9488.h
+
 ├── data/
 │   └── README.md              # Put background.png here for SPIFFS upload
 ├── include/
@@ -67,7 +64,6 @@ A polished PlatformIO demo for an ESP32-S3 Dev Board with a 3.5-inch 320x480 SPI
 
 ## Compilation
 
-### PlatformIO
 
 ```bash
 pio run
@@ -76,14 +72,6 @@ pio run --target uploadfs
 pio device monitor
 ```
 
-### Arduino IDE
-
-1. Open `ArduinoIDE/ESP32S3_ILI9488_Showcase/ESP32S3_ILI9488_Showcase.ino` in Arduino IDE.
-2. Install the ESP32 board package by Espressif Systems and the LovyanGFX library.
-3. Select an ESP32-S3 board profile that matches your dev board.
-4. Edit the WiFi credentials and timezone constants at the top of the `.ino` file.
-5. Keep the unchanged `LGFX_ILI9488.h` file in the same sketch folder, then compile and upload.
-6. Optional: upload `background.png` to SPIFFS as `/background.png` using an ESP32 filesystem upload tool.
 
 ## Screenshots
 
