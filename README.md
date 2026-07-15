@@ -1,69 +1,59 @@
 # ESP32-S3 ILI9488 LovyanGFX Showcase
 
-![PlatformIO](https://img.shields.io/badge/PlatformIO-ready-orange)
-![ESP32--S3](https://img.shields.io/badge/ESP32--S3-supported-blue)
-![LovyanGFX](https://img.shields.io/badge/Graphics-LovyanGFX-green)
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+Simple PlatformIO project for an ESP32-S3 with an SPI ILI9488 LCD and XPT2046 touch controller.
 
-A polished PlatformIO demo for an ESP32-S3 Dev Board with a 3.5-inch 320x480 SPI ILI9488 TFT and XPT2046 touch controller. The project draws a full-screen wallpaper once, then renders clock, WiFi, weather placeholder, touch responses, and sprite-based animations on top using LovyanGFX only.
+The project intentionally keeps the code beginner-friendly: one main source file plus the known-good LovyanGFX display configuration.
 
-## Hardware List
+## Hardware
 
-- ESP32-S3 Dev Board
-- 3.5-inch SPI TFT display
-- ILI9488 display controller
+- ESP32-S3 development board
+- ILI9488 SPI LCD
 - XPT2046 resistive touch controller
-- 320x480 panel used in landscape orientation
+- LovyanGFX
+- Arduino framework
 
-## Features
-
-- LovyanGFX-only rendering; no TFT_eSPI and no LVGL dependency.
-- Existing `LGFX_ILI9488.h` display configuration is used unchanged.
-
-- Wallpaper is loaded once from SPIFFS as `/background.png`.
-- Top translucent-style panel with time, date, day of week, WiFi signal, and weather placeholder.
-- NTP synchronization over WiFi using Arduino `time.h` support.
-- Animated cat status text with touch-triggered speech bubbles.
-- Moon, lantern, cat, and empty-space touch interactions.
-- 30 FPS animation pacing with sprites and dirty-rectangle-oriented updates.
-- TODO hooks for Weather API, RTC, brightness sensor, SD wallpaper, GIF, and future LVGL experiments.
-
-## Folder Structure
+## Project structure
 
 ```text
 .
-
 ├── data/
-│   └── README.md              # Put background.png here for SPIFFS upload
+│   └── README.md              # Optional SPIFFS wallpaper note
 ├── include/
-│   ├── LGFX_ILI9488.h         # Provided display/touch configuration
-│   ├── animation.h
-│   ├── clock.h
-│   ├── config.h
-│   ├── touch.h
-│   ├── ui.h
-│   └── weather.h
+│   └── LGFX_ILI9488.h         # Working LCD and touch configuration
 ├── src/
-│   ├── animation.cpp
-│   ├── clock.cpp
-│   ├── main.cpp
-│   ├── touch.cpp
-│   ├── ui.cpp
-│   └── weather.cpp
+│   └── main.cpp               # Simple showcase sketch
+├── .gitignore
 ├── LICENSE
 ├── platformio.ini
 └── README.md
 ```
 
-## PlatformIO Setup
+## Configuration
 
-1. Install [PlatformIO Core](https://docs.platformio.org/) or the VS Code PlatformIO extension.
-2. Copy your supplied wallpaper into `data/background.png`. Use a 480x320 PNG already prepared for landscape orientation.
-3. Edit WiFi credentials and timezone values in `include/config.h`.
-4. Build, upload firmware, and upload the SPIFFS filesystem image.
+Edit the WiFi and timezone constants near the top of `src/main.cpp`:
 
-## Compilation
+```cpp
+const char* WIFI_SSID = "YOUR_WIFI_SSID";
+const char* WIFI_PASSWORD = "YOUR_WIFI_PASSWORD";
+const long GMT_OFFSET_SECONDS = 0;
+const int DAYLIGHT_OFFSET_SECONDS = 0;
+```
 
+Do not change `include/LGFX_ILI9488.h` unless you intentionally need to change the working display or touch wiring.
+
+## Optional wallpaper
+
+Place a 480x320 landscape PNG at:
+
+```text
+data/background.png
+```
+
+Then upload the SPIFFS filesystem image.
+
+If no wallpaper is uploaded, the firmware draws a simple fallback background.
+
+## Build and upload
 
 ```bash
 pio run
@@ -72,28 +62,20 @@ pio run --target uploadfs
 pio device monitor
 ```
 
+## Cleanup notes
 
-## Screenshots
+The repository was reduced to one active PlatformIO project. Removed files were old experiments, duplicate Arduino sketches, or unused C++ modules that made the project more complex than necessary.
 
-Add photos or captures of the running display here:
+Deleted files and folders:
 
-| Boot wallpaper | Clock panel | Touch interaction |
-| --- | --- | --- |
-| _Coming soon_ | _Coming soon_ | _Coming soon_ |
+- `ArduinoIDE/` - duplicate Arduino IDE copy of the showcase code. Removed to keep one source of truth.
+- `ILI9488_Test/` - old display test sketches and alternate display configurations. Removed because they were not part of the cleaned app and some settings conflicted with the working configuration.
+- `LiveClockTest/` - old clock-only experiment with hard-coded credentials. Removed because the cleaned app already includes NTP clock display.
+- `include/animation.h`, `include/clock.h`, `include/config.h`, `include/touch.h`, `include/ui.h`, `include/weather.h` - unused module headers after simplifying the app into `src/main.cpp`.
+- `src/animation.cpp`, `src/clock.cpp`, `src/touch.cpp`, `src/ui.cpp`, `src/weather.cpp` - unused module implementations after removing unnecessary classes and abstractions.
 
-## Future Roadmap
+## Notes
 
-- Real weather API integration.
-- RTC persistence for offline timekeeping.
-- Ambient-light-driven brightness control.
-- SD card wallpaper loading.
-- Animated GIF character layer.
-- Optional LVGL exploration in a separate branch while keeping this demo LovyanGFX-first.
-
-## Contributing
-
-Contributions are welcome. Please keep the project focused on ESP32-S3, ILI9488, XPT2046, PlatformIO, and LovyanGFX. Open an issue for larger feature proposals before sending a pull request.
-
-## License
-
-This project is released under the MIT License. See [LICENSE](LICENSE) for details.
+- The working LCD/touch configuration remains in `include/LGFX_ILI9488.h`.
+- SPI pins, display rotation, and touch settings were not changed.
+- The code avoids extra classes and keeps display behavior in plain functions.
